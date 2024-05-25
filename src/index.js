@@ -1,8 +1,8 @@
 import { setupServer } from './server.js';
 import { initMongoConnection } from './db/initMongoConnection.js';
 
-const start = async () => {
+const bootstart = async () => {
     await initMongoConnection();
-    start();
+    bootstart();
 }
 setupServer()
