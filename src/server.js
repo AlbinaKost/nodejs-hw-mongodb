@@ -19,6 +19,16 @@ export function setupServer() {
       }
     }),
   );
+
+  app.get('/contacts', async (req, res) => {
+    const contacts = await getAllContacts();
+    res.status(200).json({
+      status: res.statusCode,
+      message: 'Successfully found contacts!',
+      data: contacts,
+    });
+  });
+  
   app.get('/contacts/:contactId', async (req, res) => {
     const { contactId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(contactId)) {
