@@ -18,6 +18,6 @@ export const initMongoConnection = async () => {
     throw e;
   }
 };
-//   mongodb+srv: //Alya:<password>@atlascluster.jsaxe0u.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster
-
+console.log(initMongoConnection);
+//   mongodb+srv://Alya:<password>@atlascluster.jsaxe0u.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster
 
