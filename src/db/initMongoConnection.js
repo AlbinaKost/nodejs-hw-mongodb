@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { env } from '../utils/env.js';
 
 export const initMongoConnection = async () => {
+
   try {
     const user = env('MONGODB_USER');
     const pwd = env('MONGODB_PASSWORD');
@@ -17,3 +18,6 @@ export const initMongoConnection = async () => {
     throw e;
   }
 };
+//   mongodb+srv: //Alya:<password>@atlascluster.jsaxe0u.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster
+
+
