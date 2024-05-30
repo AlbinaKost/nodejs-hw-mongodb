@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import { env } from './utils/env.js';
-import { getAllContacts, getContactById } from './services/contacts.js';
+import { router } from './routers/contacts.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 
