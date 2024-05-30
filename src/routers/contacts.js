@@ -7,13 +7,13 @@ import {
   patchContactController,
 } from '../controllers/contacts.js';
 
-import { ctrlWraper } from '../utils/ctrlWrapper.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 const router = Router();
 
-router.get('/', ctrlWraper(getAllContactsController));
-router.get('/:contactId', ctrlWraper(getContactByIdController));
-router.post('/', ctrlWraper(createContactController));
-router.delete('/:contactId', ctrlWraper(deleteContactController));
-router.patch('/:contactId', ctrlWraper(patchContactController));
+router.get('/', ctrlWrapper(getAllContactsController));
+router.get('/:contactId', ctrlWrapper(getContactByIdController));
+router.post('/', ctrlWrapper(createContactController));
+router.delete('/:contactId', ctrlWrapper(deleteContactController));
+router.patch('/:contactId', ctrlWrapper(patchContactController));
 
 export default router;
