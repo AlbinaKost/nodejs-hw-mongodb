@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 import {
   createContact,
@@ -18,9 +17,9 @@ export const getAllContactsController = async (req, res) => {
   const filter = parseFilterParams(req.query);
 
   const contacts = await getAllContacts({
-    page,
-    perPage,
-    sortBy,
+    page ,
+    perPage  ,
+    sortBy ,
     sortOrder,
     filter,
   });
@@ -30,8 +29,6 @@ export const getAllContactsController = async (req, res) => {
     data: contacts,
   });
 };
-
-
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
@@ -58,7 +55,6 @@ export const getContactByIdController = async (req, res, next) => {
 
 export const createContactController = async (req, res) => {
   const contact = await createContact(req.body);
-
 
   res.status(201).json({
     status: 201,
