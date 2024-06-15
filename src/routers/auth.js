@@ -7,10 +7,11 @@ import { loginContactController } from '../controllers/auth.js';
 import { loginUserSchema } from '../validation/auth.js';
 import { logoutUserController } from '../controllers/auth.js';
 import { refreshUserSessionController } from '../controllers/auth.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
 router.post('/register', validateBody(registerUserSchema), ctrlWrapper(registerContactController));
 router.post('/login', validateBody(loginUserSchema), ctrlWrapper(loginContactController));
-router.post('/logout', ctrlWrapper(logoutUserController));
-router.post('/refresh', ctrlWrapper(refreshUserSessionController));
+router.post('/logout', authenticate, ctrlWrapper(logoutUserController));
+router.post('/refresh',authenticate, ctrlWrapper(refreshUserSessionController));
 export default router;

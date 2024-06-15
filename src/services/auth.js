@@ -8,7 +8,7 @@ import { SessionCollection } from '../db/models/session.js';
 export const registerUser = async (payload) => {
   const user = await ContactsCollection.findOne({ email: payload.email });
   if (user) {
-    throw new createHttpError(409, 'Email in use');
+    throw  createHttpError(409, 'Email in use');
   }
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
   return await ContactsCollection.create(...payload, {
@@ -74,7 +74,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 
   const newSession = createSession();
 
-  await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
+  await SessionCollection.deleteOne({ _id: sessionId, refreshToken });
 
   return await SessionCollection.create({
     userId: session.userId,
