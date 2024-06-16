@@ -8,12 +8,14 @@ import { SessionCollection } from '../db/models/session.js';
 export const registerUser = async (payload) => {
   const user = await ContactsCollection.findOne({ email: payload.email });
   if (user) {
-    throw  createHttpError(409, 'Email in use');
+    throw createHttpError(409, 'Email in use');
   }
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
-  return await ContactsCollection.create(...payload, {
+  const newUser = {
+    ...payload,
     password: encryptedPassword,
-  });
+  };
+  return await ContactsCollection.create(newUser);
 };
 
 export const loginUser = async (payload) => {
@@ -41,7 +43,7 @@ export const loginUser = async (payload) => {
 
 export const logoutUser = async (sessionId) => {
   await SessionCollection.deleteOne({ _id: sessionId });
-}
+};
 
 const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');
@@ -81,4 +83,3 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     ...newSession,
   });
 };
-
