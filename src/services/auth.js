@@ -56,10 +56,10 @@ const createSession = () => {
   };
 };
 
-export const refreshUsersSession = async ({ sessionId, sessionToken }) => {
+export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   const session = await SessionCollection.findOne({
     _id: sessionId,
-    refreshToken: sessionToken,
+    refreshToken,
   });
 
   if (!session) {
