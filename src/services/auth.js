@@ -29,20 +29,16 @@ export const loginUser = async (payload) => {
   }
   await SessionCollection.deleteOne({ contactId: user._id });
 
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
+  const newSession = createSession();
 
   return await SessionCollection.create({
     userId: user._id,
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+    ...newSession,
   });
 };
 
-export const logoutUser = async (sessionId) => {
-  await SessionCollection.deleteOne({ _id: sessionId });
+export const logoutUser = async (sessionId, sessionToken) => {
+  return await SessionCollection.deleteOne({ _id: sessionId,refreshToken: sessionToken });
 };
 
 const createSession = () => {
@@ -57,10 +53,10 @@ const createSession = () => {
   };
 };
 
-export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
+export const refreshUsersSession = async ({ sessionId, sessionToken }) => {
   const session = await SessionCollection.findOne({
     _id: sessionId,
-    refreshToken,
+    refreshToken: sessionToken,
   });
 
   if (!session) {

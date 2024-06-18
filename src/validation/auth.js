@@ -4,6 +4,8 @@ export const registerUserSchema = Joi.object({
     name: Joi.string().min(3).max(20).required(),
     email: Joi.string().email().required(),
     password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+    createdAt: Joi.date(),
+    updatedAt: Joi.date(),
 });
 
 export const loginUserSchema = Joi.object({
