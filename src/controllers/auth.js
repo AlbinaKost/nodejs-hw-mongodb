@@ -48,14 +48,11 @@ export const loginContactController = async (req, res) => {
 
 export const logoutUserController = async (req, res) => {
 
-  await logoutUser({
-    sessionId: req.cookies.sessionId,
-    sessionToken: req.cookies.refreshToken,
-  });
-
+  if (req.cookies.sessionId) {
+    await logoutUser(req.cookies.sessionId);
+  }
   res.clearCookie('sessionId');
-  res.clearCookie('sessionToken');
-
+  res.clearCookie('refreshToken');
   res.status(204).send();
 };
 
