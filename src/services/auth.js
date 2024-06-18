@@ -5,6 +5,18 @@ import createHttpError from 'http-errors';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
 import { SessionCollection } from '../db/models/session.js';
 
+const createSession = () => {
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+
+  return {
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+  };
+};
+
 export const registerUser = async (payload) => {
   const user = await ContactsCollection.findOne({ email: payload.email });
   if (user) {
@@ -27,7 +39,7 @@ export const loginUser = async (payload) => {
   if (!isEqual) {
     throw createHttpError(401, 'Unauthorized');
   }
-  await SessionCollection.deleteOne({ contactId: user._id });
+  await SessionCollection.deleteOne({ userId: user._id });
 
   const newSession = createSession();
 
@@ -51,20 +63,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     throw createHttpError(401, 'Session not found');
   }
 
-  const createSession = () => {
-    const accessToken = randomBytes(30).toString('base64');
-    const refreshToken = randomBytes(30).toString('base64');
-
-    return {
-      accessToken,
-      refreshToken,
-      accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-      refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
-    };
-  };
-
-  const isSessionTokenExpired =
-    new Date() > new Date(session.refreshTokenValidUntil);
+  const isSessionTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
 
   if (isSessionTokenExpired) {
     throw createHttpError(401, 'Session token expired');
