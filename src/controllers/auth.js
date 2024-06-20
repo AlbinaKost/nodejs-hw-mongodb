@@ -7,7 +7,7 @@ import { refreshUsersSession } from '../services/auth.js';
 export const registerContactController = async (req, res) => {
   const user = await registerUser(req.body);
 
-  res.json({
+  res(201).json({
     status: 201,
     message: 'Successfully registered a user!',
     data: user,
