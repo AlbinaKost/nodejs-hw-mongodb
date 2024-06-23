@@ -88,7 +88,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 };
 
 export const requestResetToken = async (email) => {
-  const user = await UsersCollection.findOne({ email });
+  const user = await ContactsCollection.findOne({ email });
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
@@ -134,7 +134,7 @@ export const resetPassword = async (payload) => {
     throw err;
   }
 
-  const user = await UsersCollection.findOne({
+  const user = await ContactsCollection.findOne({
     email: entries.email,
     _id: entries.sub,
   });
@@ -145,7 +145,7 @@ export const resetPassword = async (payload) => {
 
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
-  await UsersCollection.updateOne(
+  await ContactsCollection.updateOne(
     { _id: user._id },
     { password: encryptedPassword },
   );
