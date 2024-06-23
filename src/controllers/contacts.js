@@ -83,20 +83,8 @@ export const createContactController = async (req, res, next) => {
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const userId = req.user._id;
-  const photo= req.file;
+  const photo = req.file;
   let photoUrl;
-
-  if (photo) {
-    if (env('ENABLE_CLOUDINARY') === 'true') {
-      photoUrl = await saveFileToCloudinary(photo);
-    } else {
-      photoUrl = await saveFileToUploadDir(photo);
-    }
-  }
-   const result = await upsertContact(contactId, userId, {
-    ...req.body,
-    photo: photoUrl,
-  });
 
   if (!mongoose.Types.ObjectId.isValid(contactId)) {
     return res.status(404).json({
@@ -105,7 +93,20 @@ export const patchContactController = async (req, res, next) => {
   }
 
   try {
-    const result = await upsertContact(contactId, userId, req.body);
+    if (photo) {
+      if (env('ENABLE_CLOUDINARY') === 'true') {
+        photoUrl = await saveFileToCloudinary(photo);
+      } else {
+        photoUrl = await saveFileToUploadDir(photo);
+      }
+    }
+
+    const updatedData = {
+      ...req.body,
+      ...(photoUrl && { photo: photoUrl }),
+    };
+
+    const result = await upsertContact(contactId, userId, updatedData);
 
     if (!result) {
       next(createHttpError(404, 'Contact not found'));
@@ -121,7 +122,6 @@ export const patchContactController = async (req, res, next) => {
     next(error);
   }
 };
-
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const userId = req.user._id;
