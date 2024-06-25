@@ -86,42 +86,38 @@ export const patchContactController = async (req, res, next) => {
   const photo = req.file;
   let photoUrl;
 
+  
+
+  if (photo) {
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
+
+  const result = await upsertContact(contactId, userId, {
+    ...req.body,
+    photo: photoUrl,
+  });
+
   if (!mongoose.Types.ObjectId.isValid(contactId)) {
-    return res.status(404).json({
+    res.status(404).json({
       message: 'Not found',
     });
+    return;
   }
 
-  try {
-    if (photo) {
-      if (env('ENABLE_CLOUDINARY') === 'true') {
-        photoUrl = await saveFileToCloudinary(photo);
-      } else {
-        photoUrl = await saveFileToUploadDir(photo);
-      }
-    }
-
-    const updatedData = {
-      ...req.body,
-      ...(photoUrl && { photo: photoUrl }),
-    };
-
-
-    const result = await upsertContact(contactId, userId, updatedData);
-
-    if (!result) {
-      next(createHttpError(404, 'Contact not found'));
-      return;
-    }
-
-    res.json({
-      status: 200,
-      message: 'Successfully patched a contact!',
-      data: result.contact,
-    });
-  } catch (error) {
-    next(error);
+  if (!result) {
+    next(createHttpError(404, 'Contact not found'));
+    return;
   }
+
+  res.json({
+    status: 200,
+    message: `Successfully patched a contact!`,
+    data: result.contact,
+  });
 };
 
 

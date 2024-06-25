@@ -10,14 +10,8 @@ cloudinary.v2.config({
   api_secret: env(CLOUDINARY.API_SECRET),
 });
 
-// export const saveFileToCloudinary = async (file) => {
-//   const response = await cloudinary.v2.uploader.upload(file.path);
-//   return response.secure_url;
-// };
-
 export const saveFileToCloudinary = async (file) => {
-  const result = await cloudinary.uploader.upload_stream({
-    folder: 'contacts',
-  }, file.stream);
-  return result.secure_url;
+  const response = await cloudinary.v2.uploader.upload(file.path);
+  return response.secure_url;
 };
+
