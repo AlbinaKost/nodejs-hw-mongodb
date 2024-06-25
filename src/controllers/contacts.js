@@ -106,6 +106,7 @@ export const patchContactController = async (req, res, next) => {
       ...(photoUrl && { photo: photoUrl }),
     };
 
+
     const result = await upsertContact(contactId, userId, updatedData);
 
     if (!result) {
@@ -122,6 +123,8 @@ export const patchContactController = async (req, res, next) => {
     next(error);
   }
 };
+
+
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const userId = req.user._id;
