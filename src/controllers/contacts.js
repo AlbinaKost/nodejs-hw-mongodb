@@ -86,7 +86,7 @@ export const patchContactController = async (req, res, next) => {
   const photo = req.file;
   let photoUrl;
 
-  
+
 
   if (photo) {
     if (env('ENABLE_CLOUDINARY') === 'true') {
@@ -116,7 +116,7 @@ export const patchContactController = async (req, res, next) => {
   res.json({
     status: 200,
     message: `Successfully patched a contact!`,
-    data: result.contact,
+    data: result ,
   });
 };
 
