@@ -15,7 +15,7 @@ export const SORT_ORDER = {
     SMTP_PASSWORD: 'SMTP_PASSWORD',
     SMTP_FROM: 'SMTP_FROM',
     JWT_SECRET: 'JWT_SECRET',
-    APP_DOMAIN: 'APP_DOMAIN',
+    // APP_DOMAIN: 'APP_DOMAIN',
   };
 
   export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
@@ -25,5 +25,6 @@ export const SORT_ORDER = {
     CLOUD_NAME: 'CLOUD_NAME',
     API_KEY: 'API_KEY',
     API_SECRET: 'API_SECRET',
+    ENABLE_CLOUDINARY: 'ENABLE_CLOUDINARY',
   };
 
