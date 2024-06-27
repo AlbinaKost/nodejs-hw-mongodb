@@ -20,7 +20,7 @@ router.get('/', ctrlWrapper(getAllContactsController));
 router.get('/:contactId', ctrlWrapper(getContactByIdController));
 router.post('/', validateBody(createContactSchema), ctrlWrapper(createContactController));
 router.delete('/:contactId', ctrlWrapper(deleteContactController));
-router.patch('/:contactId', validateBody(updateContactSchema), ctrlWrapper(patchContactController));
+
 router.post(
   '/',
   upload.single('photo'),
