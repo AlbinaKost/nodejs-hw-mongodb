@@ -18,8 +18,6 @@ router.use(authenticate);
 
 router.get('/', ctrlWrapper(getAllContactsController));
 router.get('/:contactId', ctrlWrapper(getContactByIdController));
-router.post('/', validateBody(createContactSchema), ctrlWrapper(createContactController));
-router.delete('/:contactId', ctrlWrapper(deleteContactController));
 
 router.post(
   '/',
@@ -34,5 +32,7 @@ router.patch(
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
 );
+
+router.delete('/:contactId', ctrlWrapper(deleteContactController));
 
 export default router;
