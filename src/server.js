@@ -14,6 +14,8 @@ export const setupServer = () => {
   const app = express();
 
   app.use(express.json());
+  app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
   app.use(cookieParser());
   app.use('/uploads', express.static(UPLOAD_DIR));
   app.use(cors());
