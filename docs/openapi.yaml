@@ -4,25 +4,23 @@ info:
   title: Contacts book app
   license:
     name: Apache 2.0
-    url: <http://www.apache.org/licenses/LICENSE-2.0.html>
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: Contacts book app. You can create, get, patch and delete your contact
 tags:
-
   - name: Contacts
     description: Operations about contacts.
-    - name: Auth
+  - name: Auth
     description: Auth operations.
-
 
 servers:
   - url: http://localhost:3000
-   - url:
-  paths:
-    /contacts:
-      get:
-        $ref: ../swagger/paths/contacts/get.yaml
-      post:
-        $ref: ../swagger/paths/contacts/post.yaml
+
+paths:
+  /contacts:
+    get:
+      $ref: ../swagger/paths/contacts/get.yaml
+    post:
+      $ref: ../swagger/paths/contacts/post.yaml
 
   /contacts/{id}:
     get:
