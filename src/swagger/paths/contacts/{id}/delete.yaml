@@ -25,6 +25,5 @@ responses:
             status:
               type: integer
               example: 204
-            $ref: '../../../components/schemas/contact.yaml'
   '404':
     $ref: '../../../components/responses/404.yaml'
