@@ -7,6 +7,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { UPLOAD_DIR } from './constants/index.js';
 import cookieParser from 'cookie-parser';
+import {swaggerDocs} from './middleware/swaggerDocs.js';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -34,7 +35,7 @@ export const setupServer = () => {
 
   app.use(errorHandler);
 
-
+  
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
