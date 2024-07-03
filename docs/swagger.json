@@ -212,7 +212,7 @@
                     ]
                   },
                   "email": {
-                    "description": "Contact's email adress",
+                    "description": "Contact's email address",
                     "type": "string",
                     "example": "test@email.com"
                   },
@@ -246,7 +246,7 @@
                   "properties": {
                     "status": {
                       "type": "integer",
-                      "example": 200
+                      "example": 201
                     },
                     "message": {
                       "type": "string",
@@ -262,7 +262,14 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/404"
+                }
+              }
+            }
           }
         }
       }
@@ -466,12 +473,13 @@
                     "status": {
                       "type": "integer",
                       "example": 204
-                    },
-                    "$ref": "../src/swagger/components/responses/404.yaml"
+                    }
                   }
                 }
               }
-            },
+            }
+          },
+          "404": {
             "$ref": "#/components/responses/404"
           }
         }
@@ -486,6 +494,43 @@
       }
     },
     "schemas": {
+      "404": {
+        "description": "Not found error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "NotFoundError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "contact": {
         "type": "object",
         "required": [

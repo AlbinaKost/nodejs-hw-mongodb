@@ -23,22 +23,24 @@ parameters:
       example: 'name'
     description: "All contact's fields can be mentioned. Default value - _id"
   - in: query
-    name: filter
-    schema:
-      type: string
-      example: 'isFavourite'
-    description: "Contact's fields can be filtered. "
-  - in: query
     name: sortOrder
     schema:
       type: string
       enum: ['asc', 'desc']
       example: 'asc'
   - in: query
-    name: userId
+    name: contactType
     schema:
       type: string
-      example: 65e4decdd286b30065d54af9
+      enum: ['work', 'home', 'personal']
+      example: 'work'
+    description: 'Filter by contact type.'
+  - in: query
+    name: isFavourite
+    schema:
+      type: boolean
+      example: true
+    description: 'Filter by favourite status.'
 responses:
   '200':
     description: Successfully found contacts!
@@ -71,7 +73,7 @@ responses:
                 data:
                   type: array
                   items:
-                    $ref: ..\..\components\schemas\contact.yaml
+                    $ref: ../../components/schemas/contact.yaml
                 page:
                   type: number
                   example: 2
@@ -90,5 +92,7 @@ responses:
                 hasPreviousPage:
                   type: boolean
                   example: true
-  '404':
-    $ref: '../../components/responses/404.yaml'
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml
