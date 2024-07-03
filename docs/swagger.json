@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "https://nodejs-hw-mongodb-25-frcq.onrender.com"
     }
   ],
   "tags": [
@@ -66,15 +66,6 @@
           },
           {
             "in": "query",
-            "name": "filter",
-            "schema": {
-              "type": "string",
-              "example": "isFavourite"
-            },
-            "description": "Contact's fields can be filtered. "
-          },
-          {
-            "in": "query",
             "name": "sortOrder",
             "schema": {
               "type": "string",
@@ -87,11 +78,26 @@
           },
           {
             "in": "query",
-            "name": "userId",
+            "name": "contactType",
             "schema": {
               "type": "string",
-              "example": "65e4decdd286b30065d54af9"
-            }
+              "enum": [
+                "work",
+                "home",
+                "personal"
+              ],
+              "example": "work"
+            },
+            "description": "Filter by contact type."
+          },
+          {
+            "in": "query",
+            "name": "isFavourite",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            },
+            "description": "Filter by favourite status."
           }
         ],
         "responses": {
@@ -164,8 +170,11 @@
               }
             }
           },
-          "404": {
-            "$ref": "#/components/responses/404"
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -261,15 +270,14 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/404"
-                }
-              }
-            }
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -328,8 +336,14 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -431,8 +445,17 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -461,26 +484,16 @@
         ],
         "responses": {
           "204": {
-            "description": "Delete contact by id",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 204
-                    }
-                  }
-                }
-              }
-            }
+            "description": "No content"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -494,43 +507,6 @@
       }
     },
     "schemas": {
-      "404": {
-        "description": "Not found error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "NotFoundError"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Contact not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "contact": {
         "type": "object",
         "required": [
@@ -643,6 +619,83 @@
       }
     },
     "responses": {
+      "400": {
+        "description": "Validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Bad request"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": [
+                        "\"name\" is not allowed to be empty",
+                        "Invalid email format"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Authorization error. An error will be called if the user is not authorized / the session token is missing or expired / the authorization header is not passed or it does not match the Bearer type. The error type will be displayed in the error message",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Session not found"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Session not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "404": {
         "description": "Not found error",
         "content": {
@@ -672,6 +725,43 @@
                     "message": {
                       "type": "string",
                       "example": "Contact not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "error.message"
                     }
                   }
                 }
