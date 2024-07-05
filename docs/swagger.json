@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://nodejs-hw-mongodb-26-plfs.onrender.com"
+      "url": "https://nodejs-hw-mongodb-27-q3m3.onrender.com"
     }
   ],
   "tags": [
@@ -197,8 +197,7 @@
                 "type": "object",
                 "required": [
                   "name",
-                  "phoneNumber",
-                  "contactType"
+                  "phoneNumber"
                 ],
                 "properties": {
                   "name": {
@@ -512,8 +511,7 @@
         "required": [
           "userId",
           "name",
-          "phoneNumber",
-          "contactType"
+          "phoneNumber"
         ],
         "properties": {
           "_id": {
@@ -538,7 +536,8 @@
               "work",
               "home",
               "personal"
-            ]
+            ],
+            "example": "personal"
           },
           "email": {
             "description": "Contact's email address",
@@ -567,8 +566,7 @@
         "required": [
           "userId",
           "name",
-          "phoneNumber",
-          "contactType"
+          "phoneNumber"
         ],
         "properties": {
           "_id": {
@@ -593,7 +591,8 @@
               "work",
               "home",
               "personal"
-            ]
+            ],
+            "example": "personal"
           },
           "email": {
             "description": "Contact's email address",
