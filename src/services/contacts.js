@@ -60,13 +60,15 @@ export const upsertContact = async (
     payload,
     {
       new: true,
-      upsert: true,
+      includeResultMetadata: true,
       ...options,
     },
   );
-
-  return contact;
+  if (!contact || !contact.value) return null;
+  return {
+    contact: contact.value,
   };
+}; 
 
 
 export const deleteContact = async (contactId, userId) => {
