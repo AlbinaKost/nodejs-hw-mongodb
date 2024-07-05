@@ -1,7 +1,7 @@
 import { Contact } from '../db/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/index.js';
-import createHttpError from 'http-errors';
+
 
 export const getAllContacts = async ({
   userId,
@@ -68,7 +68,7 @@ export const upsertContact = async (
   return {
     contact: contact.value,
   };
-}; 
+};
 
 
 export const deleteContact = async (contactId, userId) => {
