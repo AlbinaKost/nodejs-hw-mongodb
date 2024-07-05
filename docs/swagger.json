@@ -95,7 +95,7 @@
             "name": "isFavourite",
             "schema": {
               "type": "boolean",
-              "example": true
+              "example": false
             },
             "description": "Filter by favourite status."
           }
