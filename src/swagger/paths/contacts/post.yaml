@@ -13,7 +13,7 @@ requestBody:
         required:
           - name
           - phoneNumber
-          - contactType
+
         properties:
           name:
             description: "Contact's name"
@@ -66,4 +66,3 @@ responses:
           $ref: ../../components/responses/400.yaml
   '500':
           $ref: '../../components/responses/500.yaml'
-      

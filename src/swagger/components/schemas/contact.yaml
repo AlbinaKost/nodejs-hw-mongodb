@@ -24,6 +24,7 @@ properties:
       - work
       - home
       - personal
+    example: 'personal'
   email:
     description: "Contact's email address"
     type: string
@@ -39,4 +40,4 @@ properties:
   photo:
     description: "Link to contact's photo"
     type: string
-    example: https://res.cloudinary.com/uqwgdu/image/upload/image.png
+    example: 'https://res.cloudinary.com/uqwgdu/image/upload/image.png'
