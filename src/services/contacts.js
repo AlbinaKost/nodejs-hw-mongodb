@@ -2,6 +2,7 @@ import { Contact } from '../db/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/index.js';
 
+
 export const getAllContacts = async ({
   userId,
   page = 1,
@@ -40,9 +41,6 @@ export const getAllContacts = async ({
 
 export const getContactById = async (contactId, userId) => {
   const contact = await Contact.findOne({ _id: contactId, userId });
-  if (!contact) {
-    throw createHttpError(404, 'Contact not found');
-  }
   return contact;
 };
 
@@ -51,19 +49,27 @@ export const createContact = async (payload) => {
   return contact;
 };
 
-export const upsertContact = async (contactId, userId, payload, options = {}) => {
+export const upsertContact = async (
+  contactId,
+  userId,
+  payload,
+  options = {},
+) => {
   const contact = await Contact.findOneAndUpdate(
     { _id: contactId, userId },
     payload,
     {
       new: true,
-      upsert: true,
+      includeResultMetadata: true,
       ...options,
     },
   );
-
-  return contact;
+  if (!contact || !contact.value) return null;
+  return {
+    contact: contact.value,
+  };
 };
+
 
 export const deleteContact = async (contactId, userId) => {
   const contact = await Contact.findOneAndDelete({
@@ -71,9 +77,6 @@ export const deleteContact = async (contactId, userId) => {
     userId,
   });
 
-  if (!contact) {
-    throw createHttpError(404, 'Contact not found');
-  }
 
   return contact;
 };
